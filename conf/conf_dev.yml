@@ -1,0 +1,6 @@
+db:
+  url: "root:zhongyiming2003@tcp(localhost:3306)/eshop?charset=utf8mb4&parseTime=True&loc=Local"
+redis:
+  url: "redis://root:@localhost:16379/0"
+mq:
+  url: "amqp://admin:admin@localhost:5672/"
