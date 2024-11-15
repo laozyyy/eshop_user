@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InsertOneUser(db *gorm.DB, user model.User) (err error) {
+func InsertOneUser(db *gorm.DB, user *model.User) (err error) {
 	if db == nil {
 		db, err = GetDB()
 		if err != nil {
@@ -44,9 +44,13 @@ func QueryOneUserByName(db *gorm.DB, Name string) (user *model.User, err error) 
 			return nil, err
 		}
 	}
-	err = db.Table("user").Where("name = ?", Name).Find(&user).Error
+	var tmp []*model.User
+	err = db.Table("user").Where("name = ?", Name).Find(&tmp).Error
 	if err != nil {
 		log.Errorf("error: %v", err)
+	}
+	if len(tmp) == 0 {
+		return nil, err
 	}
 	return user, err
 }

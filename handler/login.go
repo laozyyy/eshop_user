@@ -1,12 +1,15 @@
 package handler
 
 import (
-	"eshop_user/constant"
+	"eshop_user/common"
+	"eshop_user/common/constant"
 	"eshop_user/database"
+	"eshop_user/model"
 	"eshop_user/model/req"
 	"eshop_user/model/resp"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 func HandleLogin(ctx *gin.Context) {
@@ -61,6 +64,22 @@ func HandleRegister(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, res)
 		return
 	} else {
+		user := &model.User{
+			UID:        common.GenerateRandomString(16),
+			Name:       param.Name,
+			Phone:      "",
+			Email:      "",
+			Password:   param.Password,
+			Role:       0,
+			CreateTime: time.Now(),
+			UpdateTime: time.Now(),
+			IsDeleted:  false,
+		}
+		err := database.InsertOneUser(nil, user)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, "服务器内部错误")
+			return
+		}
 		res = resp.RegisterRespDTO{
 			Code: constant.Success, //todo
 			Info: "success",

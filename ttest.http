@@ -1,5 +1,9 @@
-GET http://localhost:9000/api/v1/user/get/afdsfdfasfs
+POST http://localhost:9001/api/v1/user/register
+Content-Type: application/json
 
-
+{
+  "name": "tsaaaet",
+  "password": "akjgjfnasfkasjfna"
+}
 
 ###

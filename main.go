@@ -9,5 +9,5 @@ func main() {
 	database.Init()
 	r := gin.Default()
 	initRouter(r)
-	_ = r.Run(":9000")
+	_ = r.Run(":9001")
 }
