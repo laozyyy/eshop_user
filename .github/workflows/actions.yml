@@ -19,7 +19,7 @@ jobs:
           password: zhongyiming2003
 
       - name: 构建镜像
-        run: |
+        run:
           docker build -t registry.cn-hangzhou.aliyuncs.com/lazyyy1/eshop_user .
 
       - name: 连接阿里云
