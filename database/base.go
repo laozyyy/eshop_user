@@ -53,7 +53,7 @@ func GetDB() (*gorm.DB, error) {
 func init() {
 	//config := conf.LoadConfig()
 	//dsn = config.Database.URL
-	dsn = "root:zhongyiming2003@tcp(localhost:3306)/eshop?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn = "root:123456@tcp(117.72.72.114:13306)/eshop?charset=utf8mb4&parseTime=True&loc=Local"
 }
 
 func Init() {

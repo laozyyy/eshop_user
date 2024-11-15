@@ -1,9 +1,5 @@
-POST http://localhost:9000/api/v1/user/login
-Content-Type: application/json
+GET http://localhost:9000/api/v1/user/get/afdsfdfasfs
 
-{
-  "name": "tset",
-  "password": "akjgjfnasfkasjfna"
-}
+
 
 ###

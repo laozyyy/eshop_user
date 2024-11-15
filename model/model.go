@@ -10,7 +10,7 @@ type User struct {
 	Phone      string    `json:"phone"`       // 用户电话号码
 	Email      string    `json:"email"`       // 用户电子邮箱
 	Password   string    `json:"password"`    // 用户密码
-	Role       int       `json:"role"`        // 用户角色，可用于权限控制
+	Role       int       `json:"role"`        // 用户权限-1为买家，2为卖家，3为管理员
 	CreateTime time.Time `json:"create_time"` // 创建时间
 	UpdateTime time.Time `json:"update_time"` // 更新时间
 	IsDeleted  bool      `json:"is_deleted"`  // 是否删除标记，0 表示未删除，1 表示已删除
