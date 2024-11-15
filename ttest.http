@@ -1,11 +1,11 @@
-GET http://localhost:9000/api/v1/user/get/40be19cc-bae1-4928-9469-542e850be26
+POST http://localhost:9000/api/v1/user/login
 Content-Type: application/json
 
 {
-  "name": "tattest",
-  "password": "akjgjfnasfkasjfna"
+  "name": "羿艳ttat",
+  "password": "MOuhX9cPwIxPG58"
 }
 
 ###
-http://localhost:9000/api/v1/user/get/50ff985d-88f9-438a-a082-69ddc51c0995
+GET http://localhost:9000/api/v1/user/get/50ff985d-88f9-438a-a082-69ddc51c0995
 http://localhost:9000/api/v1/user/get&uid=50ff985d-88f9-438a-a082-69ddc51c0995

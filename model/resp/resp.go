@@ -5,11 +5,13 @@ import "eshop_user/model"
 type LoginRespDTO struct {
 	Code int    `json:"code"`
 	Info string `json:"info"`
+	Uid  string `json:"uid,omitempty"`
 }
 
 type RegisterRespDTO struct {
 	Code int    `json:"code"`
 	Info string `json:"info"`
+	Uid  string `json:"uid,omitempty"`
 }
 
 type UserRespDTO struct {

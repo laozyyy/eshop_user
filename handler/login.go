@@ -38,6 +38,7 @@ func HandleLogin(ctx *gin.Context) {
 	res = resp.LoginRespDTO{
 		Code: constant.Success,
 		Info: "success",
+		Uid:  user.UID,
 	}
 	ctx.JSON(http.StatusOK, res)
 	return
@@ -89,6 +90,7 @@ func HandleRegister(ctx *gin.Context) {
 		res = resp.RegisterRespDTO{
 			Code: constant.Success,
 			Info: "success",
+			Uid:  user.UID,
 		}
 		ctx.JSON(http.StatusOK, res)
 		return
