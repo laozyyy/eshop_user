@@ -1,13 +1,14 @@
 package handler
 
 import (
-	"eshop_user/common"
 	"eshop_user/common/constant"
 	"eshop_user/database"
 	"eshop_user/model"
 	"eshop_user/model/req"
 	"eshop_user/model/resp"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 	"time"
 )
@@ -28,14 +29,14 @@ func HandleLogin(ctx *gin.Context) {
 	}
 	if user.Password != param.Password {
 		res = resp.LoginRespDTO{
-			Code: constant.Success, //todo
+			Code: constant.WrongPassword,
 			Info: "密码错误",
 		}
 		ctx.JSON(http.StatusOK, res)
 		return
 	}
 	res = resp.LoginRespDTO{
-		Code: constant.Success, //todo
+		Code: constant.Success,
 		Info: "success",
 	}
 	ctx.JSON(http.StatusOK, res)
@@ -58,14 +59,19 @@ func HandleRegister(ctx *gin.Context) {
 	}
 	if user != nil {
 		res = resp.RegisterRespDTO{
-			Code: constant.DuplicatedUser, //todo
+			Code: constant.DuplicatedUser,
 			Info: "用户已存在",
 		}
 		ctx.JSON(http.StatusOK, res)
 		return
 	} else {
+		id, err := uuid.NewRandom()
+		if err != nil {
+			fmt.Printf("生成UUID失败：%v", err)
+			return
+		}
 		user := &model.User{
-			UID:        common.GenerateRandomString(16),
+			UID:        id.String(),
 			Name:       param.Name,
 			Phone:      "",
 			Email:      "",
@@ -75,13 +81,13 @@ func HandleRegister(ctx *gin.Context) {
 			UpdateTime: time.Now(),
 			IsDeleted:  false,
 		}
-		err := database.InsertOneUser(nil, user)
+		err = database.InsertOneUser(nil, user)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, "服务器内部错误")
 			return
 		}
 		res = resp.RegisterRespDTO{
-			Code: constant.Success, //todo
+			Code: constant.Success,
 			Info: "success",
 		}
 		ctx.JSON(http.StatusOK, res)
@@ -94,10 +100,7 @@ func HandleGetUser(ctx *gin.Context) {
 		uid string
 		res resp.UserRespDTO
 	)
-	if err := ctx.ShouldBindQuery(&uid); err != nil {
-		ctx.JSON(http.StatusInternalServerError, "参数绑定失败")
-		return
-	}
+	uid = ctx.Param("uid")
 	user, err := database.QueryOneUserById(nil, uid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, "服务器内部错误")
@@ -105,7 +108,7 @@ func HandleGetUser(ctx *gin.Context) {
 	}
 	if user == nil {
 		res = resp.UserRespDTO{
-			Code: constant.UserNotFound, //todo
+			Code: constant.UserNotFound,
 			Info: "用户不存在",
 			User: nil,
 		}
@@ -114,7 +117,7 @@ func HandleGetUser(ctx *gin.Context) {
 	}
 
 	res = resp.UserRespDTO{
-		Code: constant.Success, //todo
+		Code: constant.Success,
 		Info: "success",
 		User: user,
 	}

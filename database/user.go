@@ -29,9 +29,15 @@ func QueryOneUserById(db *gorm.DB, userId string) (user *model.User, err error) 
 			return nil, err
 		}
 	}
-	err = db.Table("user").Where("uid = ?", userId).Find(&user).Error
+	var tmp []*model.User
+	err = db.Table("user").Where("uid = ?", userId).Find(&tmp).Error
 	if err != nil {
 		log.Errorf("error: %v", err)
+	}
+	if len(tmp) == 0 {
+		return nil, err
+	} else {
+		user = tmp[0]
 	}
 	return user, err
 }
