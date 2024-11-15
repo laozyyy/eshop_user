@@ -51,6 +51,8 @@ func QueryOneUserByName(db *gorm.DB, Name string) (user *model.User, err error) 
 	}
 	if len(tmp) == 0 {
 		return nil, err
+	} else {
+		user = tmp[0]
 	}
 	return user, err
 }
