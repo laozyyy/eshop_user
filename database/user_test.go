@@ -8,7 +8,7 @@ import (
 )
 
 func TestDB(t *testing.T) {
-	InsertOneUser(nil, model.User{
+	InsertOneUser(nil, &model.User{
 		UID:        "12332132",
 		Name:       "tset",
 		Phone:      "123123213123",

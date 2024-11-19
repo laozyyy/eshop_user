@@ -2,7 +2,6 @@ package main
 
 import (
 	"eshop_user/database"
-	"eshop_user/handler"
 	"eshop_user/kitex_gen/eshop/user_info/userservice"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
@@ -11,7 +10,7 @@ import (
 func main() {
 	database.Init()
 	svr := userservice.NewServer(
-		new(handler.UserServiceImpl),
+		new(UserServiceImpl),
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: "UserService"}),
 	)
 	err := svr.Run()
