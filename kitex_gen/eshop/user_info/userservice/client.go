@@ -11,7 +11,9 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	GetUser(ctx context.Context, request *user_info.UserRequest, callOptions ...callopt.Option) (r *user_info.UserResponse, err error)
+	GetOneUser(ctx context.Context, request *user_info.GetOneUserRequest, callOptions ...callopt.Option) (r *user_info.GetOneUserResponse, err error)
+	GetOneUserByName(ctx context.Context, name string, callOptions ...callopt.Option) (r *user_info.GetOneUserResponse, err error)
+	InsertOneUser(ctx context.Context, user *user_info.User, callOptions ...callopt.Option) (r *user_info.InsertOneUserResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -43,7 +45,17 @@ type kUserServiceClient struct {
 	*kClient
 }
 
-func (p *kUserServiceClient) GetUser(ctx context.Context, request *user_info.UserRequest, callOptions ...callopt.Option) (r *user_info.UserResponse, err error) {
+func (p *kUserServiceClient) GetOneUser(ctx context.Context, request *user_info.GetOneUserRequest, callOptions ...callopt.Option) (r *user_info.GetOneUserResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetUser(ctx, request)
+	return p.kClient.GetOneUser(ctx, request)
+}
+
+func (p *kUserServiceClient) GetOneUserByName(ctx context.Context, name string, callOptions ...callopt.Option) (r *user_info.GetOneUserResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetOneUserByName(ctx, name)
+}
+
+func (p *kUserServiceClient) InsertOneUser(ctx context.Context, user *user_info.User, callOptions ...callopt.Option) (r *user_info.InsertOneUserResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.InsertOneUser(ctx, user)
 }

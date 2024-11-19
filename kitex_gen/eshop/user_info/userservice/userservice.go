@@ -13,10 +13,24 @@ import (
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
 
 var serviceMethods = map[string]kitex.MethodInfo{
-	"GetUser": kitex.NewMethodInfo(
-		getUserHandler,
-		newUserServiceGetUserArgs,
-		newUserServiceGetUserResult,
+	"GetOneUser": kitex.NewMethodInfo(
+		getOneUserHandler,
+		newUserServiceGetOneUserArgs,
+		newUserServiceGetOneUserResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"GetOneUserByName": kitex.NewMethodInfo(
+		getOneUserByNameHandler,
+		newUserServiceGetOneUserByNameArgs,
+		newUserServiceGetOneUserByNameResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"InsertOneUser": kitex.NewMethodInfo(
+		insertOneUserHandler,
+		newUserServiceInsertOneUserArgs,
+		newUserServiceInsertOneUserResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
@@ -86,22 +100,58 @@ func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreami
 	return svcInfo
 }
 
-func getUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*user_info.UserServiceGetUserArgs)
-	realResult := result.(*user_info.UserServiceGetUserResult)
-	success, err := handler.(user_info.UserService).GetUser(ctx, realArg.Request)
+func getOneUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*user_info.UserServiceGetOneUserArgs)
+	realResult := result.(*user_info.UserServiceGetOneUserResult)
+	success, err := handler.(user_info.UserService).GetOneUser(ctx, realArg.Request)
 	if err != nil {
 		return err
 	}
 	realResult.Success = success
 	return nil
 }
-func newUserServiceGetUserArgs() interface{} {
-	return user_info.NewUserServiceGetUserArgs()
+func newUserServiceGetOneUserArgs() interface{} {
+	return user_info.NewUserServiceGetOneUserArgs()
 }
 
-func newUserServiceGetUserResult() interface{} {
-	return user_info.NewUserServiceGetUserResult()
+func newUserServiceGetOneUserResult() interface{} {
+	return user_info.NewUserServiceGetOneUserResult()
+}
+
+func getOneUserByNameHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*user_info.UserServiceGetOneUserByNameArgs)
+	realResult := result.(*user_info.UserServiceGetOneUserByNameResult)
+	success, err := handler.(user_info.UserService).GetOneUserByName(ctx, realArg.Name)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceGetOneUserByNameArgs() interface{} {
+	return user_info.NewUserServiceGetOneUserByNameArgs()
+}
+
+func newUserServiceGetOneUserByNameResult() interface{} {
+	return user_info.NewUserServiceGetOneUserByNameResult()
+}
+
+func insertOneUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*user_info.UserServiceInsertOneUserArgs)
+	realResult := result.(*user_info.UserServiceInsertOneUserResult)
+	success, err := handler.(user_info.UserService).InsertOneUser(ctx, realArg.User)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceInsertOneUserArgs() interface{} {
+	return user_info.NewUserServiceInsertOneUserArgs()
+}
+
+func newUserServiceInsertOneUserResult() interface{} {
+	return user_info.NewUserServiceInsertOneUserResult()
 }
 
 type kClient struct {
@@ -114,11 +164,31 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) GetUser(ctx context.Context, request *user_info.UserRequest) (r *user_info.UserResponse, err error) {
-	var _args user_info.UserServiceGetUserArgs
+func (p *kClient) GetOneUser(ctx context.Context, request *user_info.GetOneUserRequest) (r *user_info.GetOneUserResponse, err error) {
+	var _args user_info.UserServiceGetOneUserArgs
 	_args.Request = request
-	var _result user_info.UserServiceGetUserResult
-	if err = p.c.Call(ctx, "GetUser", &_args, &_result); err != nil {
+	var _result user_info.UserServiceGetOneUserResult
+	if err = p.c.Call(ctx, "GetOneUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetOneUserByName(ctx context.Context, name string) (r *user_info.GetOneUserResponse, err error) {
+	var _args user_info.UserServiceGetOneUserByNameArgs
+	_args.Name = name
+	var _result user_info.UserServiceGetOneUserByNameResult
+	if err = p.c.Call(ctx, "GetOneUserByName", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) InsertOneUser(ctx context.Context, user *user_info.User) (r *user_info.InsertOneUserResponse, err error) {
+	var _args user_info.UserServiceInsertOneUserArgs
+	_args.User = user
+	var _result user_info.UserServiceInsertOneUserResult
+	if err = p.c.Call(ctx, "InsertOneUser", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

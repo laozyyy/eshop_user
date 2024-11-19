@@ -44,4 +44,4 @@ jobs:
             docker rm eshop_user;
             docker login -u aliyun2526497059 -p zhongyiming2003 registry.cn-hangzhou.aliyuncs.com;
             docker pull registry.cn-hangzhou.aliyuncs.com/lazyyy1/eshop_user;
-            docker run -d --name eshop_user -p 9000:9000 --network 47bce5c74f589f4867dbd57e9ca9f808_env-network registry.cn-hangzhou.aliyuncs.com/lazyyy1/eshop_user:latest;
+            docker run -d --name eshop_user -p 20000:8888 --network 47bce5c74f589f4867dbd57e9ca9f808_env-network registry.cn-hangzhou.aliyuncs.com/lazyyy1/eshop_user:latest;

@@ -5,5 +5,5 @@ COPY . .
 
 RUN go build eshop_user
 
-EXPOSE 9000
+EXPOSE 8888
 ENTRYPOINT ["./eshop_user"]
